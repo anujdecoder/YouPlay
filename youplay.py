@@ -14,6 +14,10 @@ def download_playlist():
     playlist.get_quality()
     playlist.save()
 
+    fp = open("status.txt", "w+")
+    fp.write("completed")
+    fp.close()
+
 
 def download_video():
     youtube_video = video()
@@ -24,25 +28,43 @@ def download_video():
 
 
 def resume_download():
-    fp = open("url.txt", "r")
-    url = fp.read()
-    fp.close()
-    fp = open("qua.txt", "r")
-    quality = fp.read()
-    fp.close()
-    fp = open("path.txt", "r")
-    path = fp.read()
+    fp = open("status.txt","w+")
+    status = fp.read()
     fp.close()
 
-    continue_download = PlayList()
-    continue_download.set_members(url, quality, path)
-    continue_download.check_internet()
-    continue_download.get_name()
-    continue_download.count_videos()
-    continue_download.get_video_links()
-    continue_download.save()
+    if status == "completed":
+        print("No unfinished download")
+    else:
+        fp = open("url.txt", "r")
+        url = fp.read()
+        fp.close()
+        fp = open("qua.txt", "r")
+        quality = fp.read()
+        fp.close()
+        fp = open("path.txt", "r")
+        path = fp.read()
+        fp.close()
+        fp = open("start.txt", "r")
+        filename = fp.read()
+        fp.close()
+
+        try:
+            os.remove(path + '\\' + filename)
+        except OSError:
+            print("")
+
+        continue_download = PlayList()
+        continue_download.set_members(url, quality, path)
+        continue_download.check_internet()
+        continue_download.get_name()
+        continue_download.count_videos()
+        continue_download.get_video_links()
+        continue_download.save()
+
 
 def main():
+    fp = open("status.txt", "w+")
+    fp.close()
     while True:
         try:
             choice = input()

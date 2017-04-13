@@ -181,7 +181,7 @@ class video:
         try:
             temp_video.download(self.location)
         except OSError:
-            print(filename+" already exists. Skipping download.")
+            print(filename + " already exists. Skipping download.")
             flag = False
 
         if flag:
@@ -200,9 +200,8 @@ class PlayList:
         self.location = None  # To store the file location
         self.name = None  # To store the name of the playlist
 
-
     # This function sets the members
-    def set_members(self,url,quality,path):
+    def set_members(self, url, quality, path):
         self.url = url
         self.quality = quality
         self.location = path
